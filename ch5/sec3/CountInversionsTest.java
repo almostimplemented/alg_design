@@ -1,31 +1,24 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Collections;
 public class CountInversionsTest {
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<Integer>();
-        Random rand = new Random();
 
-        int min = 0;
-        int max = 20;
-
-        for (int i = 0; i < 7; i++) {
-            int r;
-            do {
-                r = rand.nextInt((max - min) + 1) + min;
-            } while (list.contains(r));
-            list.add(r);
+        for (int N = 1; N <= 20; N++) {
+            System.out.println("N = " + N);
+            list.clear();
+            for (int i = 0; i < N; i++) {
+                list.add(i);
+            }
+            float movingAverage = 0;
+            for (int iter = 1; iter <= 10000; iter++) {
+                Collections.shuffle(list);
+                int inversions = CountInversions.count(list);
+                movingAverage = (inversions + movingAverage * (iter-1))/(iter);
+            }
+            System.out.println("E[I] = " + movingAverage);
         }
-        boolean comma  = false;
-        System.out.print("List: ");
-        for (int v : list) {
-            if (comma) System.out.print(", ");
-            System.out.print(v);
-            comma = true;
-        }
-        System.out.println();
-        comma = false;
-        int inversions = CountInversions.count(list);
-        System.out.println("Number of inversions: " + inversions);
     }
 }
